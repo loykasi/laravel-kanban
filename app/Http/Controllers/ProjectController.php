@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\ProjectCreated;
+use App\Http\Requests\Project\PinProjectRequest;
+use App\Http\Requests\Project\StoreRequest;
+use App\Http\Requests\Project\UpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -36,19 +39,9 @@ class ProjectController extends Controller
         ], 200);
     }
 
-    public function store(Request $request) {
+    public function store(StoreRequest $request) {
         return DB::transaction(function() use($request) {
-            $fields = $request->all();
-        
-            $errors = Validator::make($fields, [
-                'name'=>'required',
-                'startDate'=>'required',
-                'endDate'=>'required',
-            ]);
-
-            if ($errors->fails()) {
-                return response($errors->errors()->all(), 422);
-            }
+            $fields = $request->validated();
 
             $project = Project::create([
                 'name' => $fields['name'],
@@ -74,19 +67,8 @@ class ProjectController extends Controller
         });
     }
 
-    public function update(Request $request) {
-        $fields = $request->all();
-        
-        $errors = Validator::make($fields, [
-            'id' => 'required',
-            'name'=>'required',
-            'startDate'=>'required',
-            'endDate'=>'required',
-        ]);
-
-        if ($errors->fails()) {
-            return response($errors->errors()->all(), 422);
-        }
+    public function update(UpdateRequest $request) {
+        $fields = $request->validated();
 
         $project = Project::where('id', $fields['id'],)->update([
             'name' => $fields['name'],
@@ -102,17 +84,9 @@ class ProjectController extends Controller
             ], 200);
     }
 
-    public function pinProject(Request $request) {
+    public function pinProject(PinProjectRequest $request) {
         return DB::transaction(function() use ($request) {
-            $fields = $request->all();
-        
-            $errors = Validator::make($fields, [
-                'projectId' => 'required|numeric'
-            ]);
-    
-            if ($errors->fails()) {
-                return response($errors->errors()->all(), 422);
-            }
+            $fields = $request->validated();
     
             TaskProgress::where('pinned_on_dashboard', TaskProgress::PINNED_ON_DASHBOARD)
             ->update(['pinned_on_dashboard' => TaskProgress::NOT_PINNED_ON_DASHBOARD]);

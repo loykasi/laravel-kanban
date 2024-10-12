@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Member\StoreRequest;
+use App\Http\Requests\Member\UpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -26,17 +28,8 @@ class MemberController extends Controller
         ], 200);
     }
 
-    public function store(Request $request) {
-        $fields = $request->all();
-    
-        $errors = Validator::make($fields, [
-            'name'=>'required',
-            'email'=>'required|email',
-        ]);
-
-        if ($errors->fails()) {
-            return response($errors->errors()->all(), 422);
-        }
+    public function store(StoreRequest $request) {
+        $fields = $request->validated();
 
         $member = Member::create([
             'name' => $fields['name'],
@@ -49,18 +42,8 @@ class MemberController extends Controller
             ], 200);
     }
 
-    public function update(Request $request) {
-        $fields = $request->all();
-        
-        $errors = Validator::make($fields, [
-            'id' => 'required|numeric',
-            'name'=>'required',
-            'email'=>'required|email',
-        ]);
-
-        if ($errors->fails()) {
-            return response($errors->errors()->all(), 422);
-        }
+    public function update(UpdateRequest $request) {
+        $fields = $request->validated();
 
         $member = Member::where('id', $fields['id'],)->update([
             'name' => $fields['name'],

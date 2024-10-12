@@ -36,12 +36,6 @@ Route::controller(AuthController::class)->group(function() {
     
     Route::controller(TaskController::class)->group(function() {
         Route::post('/task', 'createTask');
-        Route::post('/task/not_started_to_pending', 'taskNotStartedToPending');
-        Route::post('/task/not_started_to_completed', 'taskNotStartedToCompleted');
-        Route::post('/task/pending_to_completed', 'taskPendingToCompleted');
-        Route::post('/task/pending_to_not_started', 'taskPendingToNotStarted');
-        Route::post('/task/completed_to_not_started', 'taskCompletedToNotStarted');
-        Route::post('/task/completed_to_pending', 'taskCompletedToPending');
         Route::post('/task/set-status', 'setTaskStatus');
     });
 // });
