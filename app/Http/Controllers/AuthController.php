@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\LoginRequest;
+use App\Http\Requests\User\LogoutRequest;
+use App\Http\Requests\User\RegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -14,17 +17,8 @@ class AuthController extends Controller
 {
     private $secretKey = "nqtJHFgpSNj3SUAKKDcIB51zZwqzT8/uMVRwShqD4L7Vzzt9y1uKPbkMge/WhKHOhYwcfeGTWWF5";
 
-    public function register(Request $request) {
-        $fields = $request->all();
-        
-        $errors = Validator::make($fields, [
-            'email'=>'required|email|unique:users,email',
-            'password'=>'required|min:3'
-        ]);
-
-        if ($errors->fails()) {
-            return response($errors->errors()->all(), 422);
-        }
+    public function register(RegisterRequest $request) {
+        $fields = $request->validated();
 
         $user = User::create([
             'email' => $fields['email'],
@@ -47,17 +41,8 @@ class AuthController extends Controller
         return redirect('/login');
     }
 
-    public function login(Request $request) {
-        $fields = $request->all();
-        
-        $errors = Validator::make($fields, [
-            'email'=>'required|email',
-            'password'=>'required|min:3'
-        ]);
-
-        if ($errors->fails()) {
-            return response($errors->errors()->all(), 422);
-        }
+    public function login(LoginRequest $request) {
+        $fields = $request->validated();
 
         $user = User::where('email', $fields['email'])->first();
 
@@ -88,9 +73,11 @@ class AuthController extends Controller
             ], 200);
     }
 
-    public function logout(Request $request) {
+    public function logout(LogoutRequest $request) {
+        $fields = $request->validated();
+
         DB::table('personal_access_tokens')
-        ->where('tokenable_id', $request->userId)
+        ->where('tokenable_id', $fields['userId'])
         ->delete();
 
         return response([
