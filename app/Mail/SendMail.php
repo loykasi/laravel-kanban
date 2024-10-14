@@ -21,6 +21,8 @@ class SendMail extends Mailable
     public function __construct(public User $user)
     {
         //
+        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $output->writeln("<info>Sending</info>");
     }
 
     /**

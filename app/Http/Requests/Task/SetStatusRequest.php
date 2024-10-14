@@ -23,6 +23,7 @@ class SetStatusRequest extends FormRequest
     {
         return [
             'taskId'=>'required',
+            'projectId'=>'required',
             'status'=>'required',
         ];
     }
@@ -31,6 +32,7 @@ class SetStatusRequest extends FormRequest
     {
         return [
             'taskId.required'=>'TaskId is required',
+            'projectId.required'=>'ProjectId is required',
             'status.required'=>'Status is required',
         ];
     }

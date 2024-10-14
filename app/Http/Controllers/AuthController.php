@@ -63,6 +63,8 @@ class AuthController extends Controller
             ], 422);
         }
 
+        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $output->writeln("<info>access</info>");
 
         $token = $user->createToken($this->secretKey)->plainTextToken;
         return response([

@@ -17,7 +17,6 @@ export function useDragTask() {
     function onDrop(event: DragEvent, projectId: number) {
         event.preventDefault();
         const taskId = event.dataTransfer?.getData('text/plain');
-        // console.log(`drop taskId: ${taskId}`);
         if (event.target instanceof HTMLElement && taskId !== undefined) {
             event.target.append(taskObject);
             let status: number = +event.target.id;
