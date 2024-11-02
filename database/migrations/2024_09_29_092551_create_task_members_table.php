@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('task_members', function (Blueprint $table) {
-            $table->id();
-            $table->integer('projectId');
-            $table->integer('taskId');
-            $table->integer('memberId');
-            $table->timestamps();
+            // $table->id();
+            // $table->integer('projectId');
+            // $table->integer('taskId');
+            // $table->integer('memberId');
+            // $table->timestamps();
         });
     }
 

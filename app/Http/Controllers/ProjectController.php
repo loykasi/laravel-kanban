@@ -7,7 +7,6 @@ use App\Http\Requests\Project\PinProjectRequest;
 use App\Http\Requests\Project\StoreRequest;
 use App\Http\Requests\Project\UpdateRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Project;
 use App\Models\Task;
@@ -40,7 +39,7 @@ class ProjectController extends Controller
     }
 
     public function store(StoreRequest $request) {
-        return DB::transaction(function() use($request) {
+        // return DB::transaction(function() use($request) {
             $fields = $request->validated();
 
             $project = Project::create([
@@ -51,11 +50,11 @@ class ProjectController extends Controller
                 'slug' => Project::createSlug($fields['name'])
             ]);
 
-            TaskProgress::create([
-                'projectId' => $project->id,
-                'pinned_on_dashboard' => TaskProgress::NOT_PINNED_ON_DASHBOARD,
-                'progress' => TaskProgress::INITIAL_PROJECT_PERCENT
-            ]);
+            // TaskProgress::create([
+            //     'projectId' => $project->_id,
+            //     'pinned_on_dashboard' => TaskProgress::NOT_PINNED_ON_DASHBOARD,
+            //     'progress' => TaskProgress::INITIAL_PROJECT_PERCENT
+            // ]);
 
             $count = Project::count();
             ProjectCreated::dispatch($count);
@@ -64,7 +63,7 @@ class ProjectController extends Controller
                 'project' => $project,
                 'message' => 'project created'
                 ], 200);
-        });
+        // });
     }
 
     public function update(UpdateRequest $request) {

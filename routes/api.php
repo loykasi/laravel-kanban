@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CardListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -37,6 +38,12 @@ Route::controller(AuthController::class)->group(function() {
     Route::controller(TaskController::class)->group(function() {
         Route::post('/task', 'createTask');
         Route::post('/task/set-status', 'setTaskStatus');
+    });
+
+    Route::controller(CardListController::class)->group(function() {
+        Route::post('/list', 'store');
+        Route::put('/list', 'update');
+        Route::delete('/list', 'delete');
     });
 // });
 
