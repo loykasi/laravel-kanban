@@ -35,7 +35,15 @@ onMounted(async ()=>{
 })
 </script>
 <template>
-    <div class="container">
+    <div class="">
+        <h2 class="text-xl font-semibold block pb-4">Project</h2>
+        <ProjectTable @pinned-project="pinProjectToDashboard" @get-project="getProjects" @edit-project="editProject" :loading="loading" :projects="projectData">
+            <template #pagination>
+            <Bootstrap5Pagination v-if="projectData?.data" :data="projectData?.data" @pagination-change-page="getProjects" />
+            </template>
+        </ProjectTable>
+    </div>
+    <!-- <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -53,5 +61,5 @@ onMounted(async ()=>{
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>

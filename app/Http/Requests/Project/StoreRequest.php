@@ -22,18 +22,10 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required',
-            'startDate'=>'required',
-            'endDate'=>'required',
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'name.required'=>'Name is required',
-            'startDate.required'=>'StartDate is required',
-            'endDate.required'=>'EndDate is required',
+            'name' => 'required',
+            'startDate' => 'required',
+            'endDate' => 'required',
+            'userId' => 'required'
         ];
     }
 }

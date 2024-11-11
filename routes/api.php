@@ -11,6 +11,7 @@ use App\Http\Controllers\TaskController;
 Route::controller(AuthController::class)->group(function() {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
+    Route::post('/verify-email/{token}', 'verifyEmail');
 });
 
 // Route::group(['middleware'=>['auth:sanctum']], function() {
@@ -41,6 +42,7 @@ Route::controller(AuthController::class)->group(function() {
     });
 
     Route::controller(CardListController::class)->group(function() {
+        Route::get('/list/{projectId}', 'index');
         Route::post('/list', 'store');
         Route::put('/list', 'update');
         Route::delete('/list', 'delete');

@@ -22,16 +22,9 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'=>'required|email|unique:users,email',
-            'password'=>'required|min:3'
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'email.required'=>'Email is required',
-            'password.required'=>'Password is required'
+            'email' => ['required', 'email', 'unique:users', 'email'],
+            'password' => ['required', 'min:3', 'required_with:confirmationPassword'],
+            'confirmationPassword' => ['same:password']
         ];
     }
 }

@@ -7,7 +7,7 @@
     }>()
 </script>
 <template>
-    <label for="">{{ props.label }}</label>
+    <label class="font-medium block mt-4" for="">{{ props.label }}</label>
     <div :class="{ error: props.errors.length }">
         <slot></slot>
         <div class="input-errors" v-for="error of props.errors" :key="error.$uid">

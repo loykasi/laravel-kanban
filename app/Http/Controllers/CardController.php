@@ -15,6 +15,15 @@ class CardController extends Controller
         
     }
 
+    public function index($listId)
+    {
+        $result = $this->cardService->index($listId);
+        return response([
+            'message' => 'Ok',
+            'data' => $result
+        ], 200);
+    }
+
     public function store(StoreRequest $request)
     {
         $fields = $request->validated();

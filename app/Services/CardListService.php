@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class CardListService
 {
+    public function index($projectId)
+    {
+        return CardList::where('projectId', $projectId)->get();
+    }
+
     public function store($name, $projectId)
     {
         $listCount = CardList::where('projectId', $projectId)->count();

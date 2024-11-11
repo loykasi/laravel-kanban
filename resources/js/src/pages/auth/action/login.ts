@@ -1,7 +1,7 @@
-import { makeHttpRequest } from "../../../helper/makeHttpRequest";
+import { makeHttpRequest } from "@/helper/makeHttpRequest";
 import { ref } from 'vue';
-import toastNotification from "../../../helper/toastNotification";
-import utility from "../../../helper/utility";
+import toastNotification from "@/helper/toastNotification";
+import utility from "@/helper/utility";
 
 export type LoginUserType = {
     email: string,
@@ -32,7 +32,7 @@ export function useLoginUser() {
 
             if (data.isLoggedIn) {
                 localStorage.setItem('userData', JSON.stringify(data));
-                window.location.href = '/app/admin';
+                window.location.href = '/project';
             }
 
         } catch (error) {

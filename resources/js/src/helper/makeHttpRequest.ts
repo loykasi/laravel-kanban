@@ -1,10 +1,10 @@
-import { appBase } from "../App/appBase";
+import { appBase } from "../app/appBase";
 import { getUserData } from "./getUserData";
 
 
 type HttpVerbType = 'GET'|'POST'|'PUT'|'DELETE';
 
-export function makeHttpRequest<TInput, TResponse>(endpoint:string, verb:HttpVerbType, input?:TInput) {
+export function makeHttpRequest<TInput, TResponse>(endpoint: string, verb: HttpVerbType, input?: TInput) {
     return new Promise<TResponse>(async(resolve, reject) => {
         try {
             const userData = getUserData();

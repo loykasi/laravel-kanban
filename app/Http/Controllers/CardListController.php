@@ -15,9 +15,13 @@ class CardListController extends Controller
         
     }
 
-    public function index()
+    public function index($projectId)
     {
-        
+        $result = $this->cardListService->index($projectId);
+        return response([
+            'message' => 'Ok',
+            'data' => $result
+        ], 200);
     }
 
     public function store(StoreRequest $request)

@@ -38,7 +38,9 @@ class AuthController extends Controller
     public function verifyEmail($token) {
         User::where('remember_token', $token)->update(['isValidEmail' => User::IS_VALID_EMAIL]);
 
-        return redirect('/login');
+        return response([
+            'message' => 'verify successful'
+            ], 200);
     }
 
     public function login(LoginRequest $request) {
@@ -46,33 +48,34 @@ class AuthController extends Controller
 
         $user = User::where('email', $fields['email'])->first();
 
-        if (!is_null($user)) {
-            if (intval($user->isValidEmail) !== User::IS_VALID_EMAIL) {
-                NewUserCreated::dispatch($user);
-                return response([
-                    'message' => 'Verification email has been sent',
-                    'isLoggedIn' => false,
-                ], 422);
-            }
+        if (!$user) {
+            return response([
+                'message' => 'Account not found',
+                'isLoggedIn' => false,
+            ], 422);
         }
 
-        if (!$user || !Hash::check($fields['password'], $user->password)) {
+        if (intval($user->isValidEmail) !== User::IS_VALID_EMAIL) {
+            NewUserCreated::dispatch($user);
+            return response([
+                'message' => 'Account need to be verified',
+                'isLoggedIn' => false,
+            ], 422);
+        }
+
+        if (!Hash::check($fields['password'], $user->password)) {
             return response([
                 'message' => 'Email or password invalid',
                 'isLoggedIn' => false,
             ], 422);
         }
 
-        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $output->writeln("<info>access</info>");
-
         $token = $user->createToken($this->secretKey)->plainTextToken;
         return response([
-            'message' => 'user logged in',
             'isLoggedIn' => true,
             'user' => $user,
             'token' => $token
-            ], 200);
+        ], 200);
     }
 
     public function logout(LogoutRequest $request) {
