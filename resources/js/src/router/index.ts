@@ -1,17 +1,33 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-    history: createWebHistory('/app'),
+    history: createWebHistory(),
     routes: [
         {
-            path: '/register',
-            name: 'register',
+            path: '/',
+            name: 'home',
+            component:() => import('../pages/home/HomePage.vue'),
+        },
+        {
+            path: '/verify-email/:token',
+            name: 'verify-email',
+            component:() => import('../pages/auth/VerifyEmailPage.vue'),
+        },
+        {
+            path: '/u',
+            name: 'u',
+            redirect: '/register',
             component:() => import('../pages/auth/AuthPage.vue'),
             children: [
                 {
                     path: '/register',
                     name: 'register',
                     component:() => import('../pages/auth/RegisterPage.vue')
+                },
+                {
+                    path: '/verify-email',
+                    name: 'inform-verify-email',
+                    component:() => import('../pages/auth/InformEmailVerificationPage.vue')
                 },
                 {
                     path: '/login',
@@ -21,25 +37,10 @@ const router = createRouter({
             ]
         },
         {
-            path: '/admin',
-            name: 'admin',
+            path: '/project',
+            name: 'project',
             component:() => import('../pages/admin/AdminPage.vue'),
             children: [
-                {
-                    path: '/admin',
-                    name: 'admin',
-                    component:() => import('../pages/admin/dashboard/DashboardPage.vue')
-                },
-                {
-                    path: '/member',
-                    name: 'member',
-                    component:() => import('../pages/admin/member/MemberPage.vue')
-                },
-                {
-                    path: '/create-member',
-                    name: 'create-member',
-                    component:() => import('../pages/admin/member/CreateMember.vue')
-                },
                 {
                     path: '/project',
                     name: 'project',
@@ -56,6 +57,11 @@ const router = createRouter({
                     component:() => import('../pages/admin/kanbanBoard/KanbanBoard.vue')
                 }
             ]
+        },
+        {
+            path: '/:pathMatch(.*)*',
+            name: 'notfound',
+            component:() => import('../pages/home/NotFoundPage.vue')
         }
     ]
 })

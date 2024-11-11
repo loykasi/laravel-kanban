@@ -30,13 +30,77 @@ async function closeModal() {
     utility.closeModal('taskModal');
 }
 
+function onTestDrop() {
+    console.log('drop');
+}
+
 onMounted(async ()=>{
     await getProjectDetail(query);
     getMembers(1, '');
 })
 </script>
 <template>
-    <div class="row">
+    <ul class="flex h-full">
+        <li
+            @drop="onTestDrop()"
+            @dragenter.prevent
+            @dragover.prevent
+            class="p-2"
+        >
+            <div
+                draggable="true"
+                class="w-72 bg-gray-50 border rounded-xl shadow px-2 pb-2"
+            >
+                <div class="font-semibold text-sm px-3 py-3">Game Features (May Have)</div>
+                <div>
+                    <div>
+                        <div draggable="true" class="bg-white border border-slate-200 rounded-xl shadow px-4 py-2 mb-2">Card 1</div>
+                    </div>
+                    <div>
+                        <div draggable="true" class="bg-white border border-slate-200 rounded-xl shadow px-4 py-2 mb-2">Card 1</div>
+                    </div>
+                    <div>
+                        <div draggable="true" class="bg-white border border-slate-200 rounded-xl shadow px-4 py-2 mb-2">Unlock things by completing achievements</div>
+                    </div>
+                </div>
+                <div class="flex items-center font-semibold text-sm text-slate-700 px-3 py-1 rounded-xl hover:bg-gray-200">
+                    <svg class="w-6 h-6 mr-2 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+                    </svg>
+                    <span>Add a card</span>
+                </div>
+            </div>
+        </li>
+        <li
+            @drop="onTestDrop()"
+            @dragenter.prevent
+            @dragover.prevent
+            class="p-2"
+        >
+            <div
+                draggable="true"
+                class="w-72 bg-gray-50 border rounded-xl shadow px-2 pb-2"
+            >
+                <div class="font-semibold text-sm px-3 py-3">TO DO LIST</div>
+                <div class="flex items-center font-semibold text-sm text-slate-700 px-2 py-1 rounded-xl hover:bg-gray-200">
+                    <svg class="w-6 h-6 mr-2 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+                    </svg>
+                    <span>Add a card</span>
+                </div>
+            </div>
+        </li>
+        <div class="p-2">
+            <div class="w-72 bg-opacity-50 border rounded-xl shadow px-2 py-3 flex items-center font-semibold text-sm text-slate-700 hover:bg-gray-200">
+                <svg class="w-6 h-6 mr-2 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+                </svg>
+                <span>Add new list</span>
+            </div>
+        </div>
+    </ul>
+
+    <!-- <div class="row">
         <AddTaskModal @get-members="getMembers" @close-modal="closeModal" :members="memberData" />
         <BreadCrumb />
         <div class="row" style="margin-bottom: 20px">
@@ -161,7 +225,7 @@ onMounted(async ()=>{
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <style>

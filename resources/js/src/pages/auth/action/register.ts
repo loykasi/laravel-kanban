@@ -1,10 +1,11 @@
-import { makeHttpRequest } from "../../../helper/makeHttpRequest";
+import { makeHttpRequest } from "@/helper/makeHttpRequest";
 import { ref } from 'vue';
-import toastNotification from "../../../helper/toastNotification";
+import toastNotification from "@/helper/toastNotification"
 
 export type RegisterUserType = {
     email: string,
-    password: string
+    password: string,
+    confirmationPassword: string,
 }
 
 export type RegisterResponseType = {
@@ -13,6 +14,10 @@ export type RegisterResponseType = {
     },
     message: string
 }
+
+export const isValidConfirmationPassword = (password: string, confirmation: string) => {
+    return password === confirmation;
+};
 
 export const registerInput = ref<RegisterUserType>({} as RegisterUserType)
 
@@ -25,7 +30,9 @@ export function useRegisterUser() {
             loading.value = false;
             registerInput.value = {} as RegisterUserType;
             toastNotification.showSuccess(data.message);
+            window.location.href = '/verify-email';
         } catch (error) {
+            console.log(error);
             loading.value = false;
             for (const message of error as string[]) {
                 toastNotification.showError(message);

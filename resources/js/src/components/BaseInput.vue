@@ -17,7 +17,7 @@
     <input
         :value="modelValue"
         :type="typeof type==='undefined' ? 'text' : type"
-        class="form-control"
+        class="border rounded-md mt-1 p-2 w-full"
         @input="updateValue"
         placeholder=""
     >
