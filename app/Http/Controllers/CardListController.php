@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CardList\DeleteRequest;
+use App\Http\Requests\CardList\ReorderRequest;
 use App\Http\Requests\CardList\StoreRequest;
 use App\Http\Requests\CardList\UpdateRequest;
 use App\Services\CardListService;
@@ -44,15 +45,13 @@ class CardListController extends Controller
     public function update(UpdateRequest $request)
     {
         $fields = $request->validated();
+
         $result = $this->cardListService->update(
             $fields['listId'],
             $fields['name'],
-            $fields['projectId'],
-            $fields['order']
         );
 
-        if ($result)
-        {
+        if ($result) {
             return response([
                 'message' => 'list updated'
             ], 200);
@@ -72,6 +71,26 @@ class CardListController extends Controller
         {
             return response([
                 'message' => 'list deleted'
+            ], 200);
+        }
+
+        return response([
+            'message' => 'failed'
+        ], 400);
+    }
+
+    public function reorder(ReorderRequest $request)
+    {
+        $fields = $request->validated();
+
+        $result = $this->cardListService->reorder(
+            $fields['listId'],
+            $fields['order'],
+        );
+
+        if ($result) {
+            return response([
+                'message' => 'success'
             ], 200);
         }
 

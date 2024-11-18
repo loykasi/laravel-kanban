@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\CardListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,9 +21,10 @@ Route::controller(AuthController::class)->group(function() {
     });
 
     Route::controller(ProjectController::class)->group(function() {
+        Route::get('/project', 'index');
+        Route::get('/user/project', 'getUserProject');
         Route::post('/project', 'store');
         Route::put('/project', 'update');
-        Route::get('/project', 'index');
         Route::post('/project/pin', 'pinProject');
         Route::get('/project/{slug}', 'getProject');
         Route::get('/count/project', 'countProject');
@@ -42,10 +44,18 @@ Route::controller(AuthController::class)->group(function() {
     });
 
     Route::controller(CardListController::class)->group(function() {
-        Route::get('/list/{projectId}', 'index');
-        Route::post('/list', 'store');
+        Route::get('project/{projectId}/list', 'index');
+        Route::post('project/{projectId}/list', 'store');
         Route::put('/list', 'update');
+        Route::put('/list/reorder', 'reorder');
         Route::delete('/list', 'delete');
+    });
+
+    Route::controller(CardController::class)->group(function() {
+        Route::get('project/list/{listId}', 'index');
+        Route::post('project/list/card', 'store');
+        Route::put('project/list/card', 'update');
+        Route::delete('project/list/card', 'delete');
     });
 // });
 
