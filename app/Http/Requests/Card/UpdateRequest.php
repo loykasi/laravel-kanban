@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
         return [
             'cardId' => ['required'],
             'name' => ['required'],
-            'listId' => ['required'],
+            'listId' => ['required']
         ];
     }
 }

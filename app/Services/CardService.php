@@ -22,18 +22,54 @@ class CardService
         ]);
     }
 
-    public function update($cardId, $name, $listId, $order)
+    public function update($cardId, $name, $listId)
     {
-        return Card::where('_id', $cardId)
-        ->update([
-            'name' => $name,
-            'listId' => $listId,
-            'order' => $order
-        ]);
+        $result = Card::where('id', $cardId)
+            ->update([
+                'name' => $name,
+                'listId' => $listId,
+            ]);
+
+        return $result;
+    }
+    
+    public function reorder($cardId, $order) {
+        try {
+            $targetCard = Card::where('id', $cardId)->first();
+            $oldOrder = $targetCard->order;
+    
+            $targetCard->order = $order;
+            $targetCard->save();
+                
+            if ($order != $oldOrder) {
+                $cards = Card::where([
+                    ['id', '<>', $cardId],
+                ]);
+                
+                if ($order > $oldOrder) {
+                    $this->reorderOthers($cards, $oldOrder, $order, -1);
+                } else {
+                    $this->reorderOthers($cards, $order, $oldOrder, 1);
+                }
+            }
+
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
+    }
+
+    private function reorderOthers($cards, $rangeA, $rangeB, $change) {
+        $cards = $cards->whereBetween('order', [$rangeA, $rangeB])->get();
+
+        foreach ($cards as $card) {
+            $card->order += $change;
+            $card->save();
+        }
     }
 
     public function delete($cardId)
     {
-        return Card::where('_id', $cardId)->delete();
+        return Card::where('id', $cardId)->delete();
     }
 }
