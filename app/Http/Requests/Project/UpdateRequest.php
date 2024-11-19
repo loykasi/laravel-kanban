@@ -24,8 +24,6 @@ class UpdateRequest extends FormRequest
         return [
             'id' => 'required',
             'name'=>'required',
-            'startDate'=>'required',
-            'endDate'=>'required',
         ];
     }
 
@@ -34,8 +32,6 @@ class UpdateRequest extends FormRequest
         return [
             'id.required' => 'Id is required',
             'name.required'=>'Name is required',
-            'startDate.required'=>'StartDate is required',
-            'endDate.required'=>'EndDate is required',
         ];
     }
 }

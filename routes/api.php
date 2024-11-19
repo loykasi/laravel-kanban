@@ -33,11 +33,12 @@ Route::controller(AuthController::class)->group(function() {
 
     Route::controller(ProjectController::class)->group(function() {
         Route::get('/project', 'index');
-        Route::get('/user/project', 'getUserProject');
+        Route::get('/user/{userId}/project', 'getUserProject');
+        Route::get('/project/{projectId}', 'getProjectDetail');
         Route::post('/project', 'store');
         Route::put('/project', 'update');
+
         Route::post('/project/pin', 'pinProject');
-        Route::get('/project/{slug}', 'getProject');
         Route::get('/count/project', 'countProject');
         Route::get('/pin/project', 'getPinnedProject');
         Route::get('/project/chart/{projectId}', 'getProjectChartData');

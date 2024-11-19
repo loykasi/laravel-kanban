@@ -30,4 +30,8 @@ class Project extends Model
     public function tasks() {
         return $this->hasMany(Task::class, 'projectId');
     }
+
+    public function lists() {
+        return $this->hasMany(CardList::class, 'projectId');
+    }
 }

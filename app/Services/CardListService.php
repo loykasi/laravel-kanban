@@ -9,7 +9,7 @@ class CardListService
 {
     public function index($projectId)
     {
-        return CardList::where('projectId', $projectId)->get();
+        return CardList::with(['cards'])->where('projectId', $projectId)->get();
     }
 
     public function store($name, $projectId)
