@@ -25,18 +25,16 @@
 </script>
 
 <template>
-  <div class="">
+  <div class="flex flex-col h-screen">
     <NavBar @logout="logoutUser" :logged-in-user-email="userData?.user?.email" />
-    <div class="">
-      <div class="p-4 sm:ml-64 h-screen">
-        <router-view v-slot="{ Component, route }">
-          <!-- <transition name="fade" mode="out-in"> -->
+    <div class="flex-1 bg-gray-300">
+      <router-view v-slot="{ Component, route }">
+          <transition name="fade" mode="out-in">
             <div class="h-full" :key="route.name">
               <component :is="Component"></component>
             </div>
-          <!-- </transition> -->
+          </transition>
         </router-view>
-      </div>
     </div>
   </div>
 

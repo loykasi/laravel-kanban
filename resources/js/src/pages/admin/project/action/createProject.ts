@@ -5,10 +5,8 @@ import utility from "../../../../helper/utility";
 import { projectStore } from "../../../../store/projectStore";
 
 export type ProjectInputType = {
-    id: number,
     name: string,
-    startDate: string,
-    endDate: string,
+    userId: string
 }
 
 export type ProjectResponseType = {

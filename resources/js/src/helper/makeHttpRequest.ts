@@ -13,13 +13,16 @@ export function makeHttpRequest<TInput, TResponse>(endpoint: string, verb: HttpV
                 {
                     method: verb,
                     headers: {
+                        "Accept": "application/json",
                         "content-type": "application/json",
-                        Authorization: "Bearer " + userData?.token
+                        "Authorization": "Bearer " + userData?.token,
+                        "X-Socket-ID": window.Echo.socketId()
                     },
                     body: JSON.stringify(input)
                 });
 
-            const data:TResponse = await res.json();
+            const text = await res.text();
+            const data: TResponse = JSON.parse(text);
             if (!res.ok) {
                 reject(data);
             }

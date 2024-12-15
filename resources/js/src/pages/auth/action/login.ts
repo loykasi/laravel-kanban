@@ -10,7 +10,7 @@ export type LoginUserType = {
 
 export type LoginResponseType = {
     user: {
-        id: number,
+        id: string,
         email: string
     },
     message: string,

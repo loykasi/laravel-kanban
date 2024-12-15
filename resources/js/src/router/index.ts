@@ -5,8 +5,9 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'home',
-            component:() => import('../pages/home/HomePage.vue'),
+            redirect: '/login',
+            // name: 'home',
+            // component:() => import('../pages/home/HomePage.vue'),
         },
         {
             path: '/verify-email/:token',
@@ -47,13 +48,8 @@ const router = createRouter({
                     component:() => import('../pages/admin/project/ProjectPage.vue')
                 },
                 {
-                    path: '/create-project',
-                    name: 'create-project',
-                    component:() => import('../pages/admin/project/CreateProject.vue')
-                },
-                {
-                    path: '/kaban',
-                    name: 'kaban',
+                    path: '/project/:id',
+                    name: 'kanban',
                     component:() => import('../pages/admin/kanbanBoard/KanbanBoard.vue')
                 }
             ]

@@ -1,8 +1,8 @@
-import { makeHttpRequest } from "../../../../helper/makeHttpRequest";
+import { makeHttpRequest } from "@/helper/makeHttpRequest";
 import { ref } from 'vue';
-import toastNotification from "../../../../helper/toastNotification";
-import utility from "../../../../helper/utility";
-import { taskStore } from "../../../../store/kanbanStore";
+import toastNotification from "@/helper/toastNotification";
+import utility from "@/helper/utility";
+import { taskStore } from "@/store/kanbanStore";
 
 export type CreateTaskInput = {
     name: string,

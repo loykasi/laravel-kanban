@@ -14,12 +14,6 @@ class StoreRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation() {
-        $this->merge([
-            'projectId' => $this->route('projectId')
-        ]);
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *

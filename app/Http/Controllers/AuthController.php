@@ -15,7 +15,7 @@ use App\Events\NewUserCreated;
 
 class AuthController extends Controller
 {
-    private $secretKey = "nqtJHFgpSNj3SUAKKDcIB51zZwqzT8/uMVRwShqD4L7Vzzt9y1uKPbkMge/WhKHOhYwcfeGTWWF5";
+    private $secretKey = "authToken";
 
     public function register(RegisterRequest $request) {
         $fields = $request->validated();

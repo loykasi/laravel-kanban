@@ -7,6 +7,7 @@ use App\Http\Requests\CardList\ReorderRequest;
 use App\Http\Requests\CardList\StoreRequest;
 use App\Http\Requests\CardList\UpdateRequest;
 use App\Services\CardListService;
+use Illuminate\Http\Request;
 
 class CardListController extends Controller
 {
@@ -32,9 +33,7 @@ class CardListController extends Controller
         
         if ($result)
         {
-            return response([
-                'message' => 'list created'
-            ], 200);
+            return response($result, 200);
         }
 
         return response([
@@ -42,13 +41,13 @@ class CardListController extends Controller
         ], 400);
     }
 
-    public function update(UpdateRequest $request)
+    public function update($listId, Request $request)
     {
-        $fields = $request->validated();
-
         $result = $this->cardListService->update(
-            $fields['listId'],
-            $fields['name'],
+            $listId,
+            $request['projectId'],
+            $request['name'],
+            $request['order'],
         );
 
         if ($result) {
@@ -62,35 +61,14 @@ class CardListController extends Controller
         ], 400);
     }
 
-    public function delete(DeleteRequest $request)
+    public function delete($listId, Request $request)
     {
-        $fields = $request->validated();
-        $result = $this->cardListService->delete($fields['listId']);
+        $result = $this->cardListService->delete($listId, $request['projectId']);
 
         if ($result)
         {
             return response([
                 'message' => 'list deleted'
-            ], 200);
-        }
-
-        return response([
-            'message' => 'failed'
-        ], 400);
-    }
-
-    public function reorder(ReorderRequest $request)
-    {
-        $fields = $request->validated();
-
-        $result = $this->cardListService->reorder(
-            $fields['listId'],
-            $fields['order'],
-        );
-
-        if ($result) {
-            return response([
-                'message' => 'success'
             ], 200);
         }
 
