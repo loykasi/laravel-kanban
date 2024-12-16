@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 // use Illuminate\Database\Eloquent\Model;
 use MongoDB\Laravel\Eloquent\Model;
+use MongoDB\Laravel\Relations\BelongsToMany;
 use Str;
 
 class Project extends Model
@@ -30,4 +31,16 @@ class Project extends Model
     public function tasks() {
         return $this->hasMany(Task::class, 'projectId');
     }
+
+    public function lists() {
+        return $this->hasMany(CardList::class, 'projectId');
+    }
+
+    public function users(): BelongsToMany {
+        return $this->belongsToMany(User::class);
+    }
+
+    // public function members() {
+    //     return User::whereIn('_id', $this->member);
+    // }
 }

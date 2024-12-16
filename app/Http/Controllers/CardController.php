@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CardListCreated;
+use App\Http\Requests\Card\ReorderRequest;
 use App\Http\Requests\Card\StoreRequest;
 use App\Http\Requests\Card\UpdateRequest;
 use App\Http\Requests\Card\DeleteRequest;
 use App\Services\CardService;
+use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
@@ -27,13 +30,11 @@ class CardController extends Controller
     public function store(StoreRequest $request)
     {
         $fields = $request->validated();
-        $result = $this->cardService->store($fields['name'], $fields['listId']);
+        $result = $this->cardService->store($fields['name'], $fields['listId'], $fields['projectId']);
         
         if ($result)
         {
-            return response([
-                'message' => 'card created'
-            ], 200);
+            return response()->json($result, 200);
         }
 
         return response([
@@ -41,14 +42,16 @@ class CardController extends Controller
         ], 400);
     }
 
-    public function update(UpdateRequest $request)
+    public function update($cardId, Request $request)
     {
-        $fields = $request->validated();
         $result = $this->cardService->update(
-            $fields['cardId'],
-            $fields['name'],
-            $fields['listId'],
-            $fields['order']
+            $cardId,
+            $request['fromListId'],
+            $request['toListId'],
+            $request['projectId'],
+            $request['name'],
+            $request['order'],
+            $request['description'],
         );
 
         if ($result)
@@ -63,10 +66,9 @@ class CardController extends Controller
         ], 400);
     }
 
-    public function delete(DeleteRequest $request)
+    public function delete($cardId, Request $request)
     {
-        $fields = $request->validated();
-        $result = $this->cardService->delete($fields['listId']);
+        $result = $this->cardService->delete($cardId, $request['projectId']);
 
         if ($result)
         {

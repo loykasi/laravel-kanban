@@ -26,12 +26,4 @@ class StoreRequest extends FormRequest
             'projectId' => ['required'],
         ];
     }
-
-    // public function messages(): array
-    // {
-    //     return [
-    //         'name.required'=>'Name is required',
-    //         'projectId.required'=>'ProjectId is required',
-    //     ];
-    // }
 }

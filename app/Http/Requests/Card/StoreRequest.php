@@ -11,7 +11,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,6 +24,7 @@ class StoreRequest extends FormRequest
         return [
             'name' => ['required'],
             'listId' => ['required'],
+            'projectId' => ['required'],
         ];
     }
 }

@@ -22,9 +22,8 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'listId' => ['required'],
-            'name' => ['required'],
-            'projectId' => ['required'],
+            // 'projectId' => ['required'],
+            // 'name' => ['required'],
         ];
     }
 }

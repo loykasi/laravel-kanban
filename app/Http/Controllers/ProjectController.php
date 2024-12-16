@@ -3,56 +3,74 @@
 namespace App\Http\Controllers;
 
 use App\Events\ProjectCreated;
-use App\Http\Requests\Project\PinProjectRequest;
+use App\Http\Requests\Project\DeleteRequest;
 use App\Http\Requests\Project\StoreRequest;
 use App\Http\Requests\Project\UpdateRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Services\ProjectService;
 use App\Models\Project;
-use App\Models\Task;
-use App\Models\TaskProgress;
+use Auth;
 
 class ProjectController extends Controller
 {
-    public function getProject(Request $request, $slug) {
-        $project = Project::with(['tasks.task_members.member', 'task_progress'])
-                        ->where("slug", $slug)
-                        ->first();
-        return response([
-            'data' => $project
-        ], 200);
-    }
+    public function __construct(private ProjectService $projectService) {}
 
-    public function index(Request $request) {
-        $query = $request->get('query');
-        $userId = $request->get('userId');
-        $project = Project::with(['task_progress'])->where('userId', $userId);
+    public function index() {
+        $projects = $this->projectService->index();
 
-        if (!is_null($query) && $query !== '') {
-            $project->where('name', 'like', '%' . $query . '%')->orderBy('id', 'desc');
+        if ($projects) {
             return response([
-                'data' => $project->paginate(10)
+                'data' => $projects
             ], 200);
         }
+
         return response([
-            'data' => $project->paginate(10)
-        ], 200);
+            'message' => 'not found'
+        ], 404);
+    }
+
+    public function getUserProject($userId) {
+        $projects = $this->projectService->getUserProject($userId);
+
+        if ($projects) {
+            return response([
+                'data' => $projects
+            ], 200);
+        }
+
+        return response([
+            'message' => 'not found'
+        ], 404);
+    }
+
+    public function getUserCollabProject($userId) {
+        $user = Auth::user();
+        if ($user->project_ids === null) {
+            return response([
+                'data' => []
+            ], 200);
+        }
+
+        $projects = Project::whereIn("id", $user->project_ids)->get();
+
+        if ($projects) {
+            return response([
+                'data' => $projects
+            ], 200);
+        }
+
+        return response([
+            'message' => 'not found'
+        ], 404);
     }
 
     public function store(StoreRequest $request) {
         $fields = $request->validated();
 
-        $project = Project::create([
-            'name' => $fields['name'],
-            'status' => Project::NOT_STARTED,
-            'startDate' => $fields['startDate'],
-            'endDate' => $fields['endDate'],
-            'slug' => Project::createSlug($fields['name']),
-            'userId' => $fields['userId']
-        ]);
+        $project = $this->projectService->store($fields['name'], $fields['userId']);
 
         $count = Project::count();
-        ProjectCreated::dispatch($count);
+        ProjectCreated::dispatch($fields['userId']);
+        // broadcast(new ProjectCreated($fields['userId']));
 
         return response([
             'project' => $project,
@@ -63,22 +81,46 @@ class ProjectController extends Controller
     public function update(UpdateRequest $request) {
         $fields = $request->validated();
 
-        $project = Project::where('id', $fields['id'],)->update([
-            'name' => $fields['name'],
-            'status' => Project::NOT_STARTED,
-            'startDate' => $fields['startDate'],
-            'endDate' => $fields['endDate'],
-            'slug' => Project::createSlug($fields['name'])
-        ]);
+        $result = $this->projectService->update($fields['id'], $fields['name']);
+
+        if ($result) {
+            return response([
+                'message' => 'project updated'
+                ], 200);
+        }
 
         return response([
-            'project' => $project,
-            'message' => 'project updated'
-            ], 200);
+            'message' => 'not found'
+        ], 404);
+    }
+
+    public function delete(DeleteRequest $request) {
+        $fields = $request->validated();
+
+        $result = $this->projectService->delete($fields['id']);
+
+        if ($result) {
+            return response([
+                'message' => 'project updated'
+                ], 200);
+        }
+
+        return response([
+            'message' => 'not found'
+        ], 404);
+    }
+
+    public function getProjectDetail($projectId) {
+        $project = $this->projectService->getProjectDetail($projectId);
+        
+        return response([
+            'data' => $project
+        ], 200);
     }
 
     public function countProject() {
         $count = Project::count();
         return response(['count' => $count]);
     }
+
 }

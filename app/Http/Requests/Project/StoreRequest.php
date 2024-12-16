@@ -23,8 +23,6 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'startDate' => 'required',
-            'endDate' => 'required',
             'userId' => 'required'
         ];
     }

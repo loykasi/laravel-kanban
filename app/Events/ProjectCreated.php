@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Project;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,14 +15,12 @@ class ProjectCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $countProject;
-
     /**
      * Create a new event instance.
      */
-    public function __construct($countProject)
+    public function __construct(public $userId)
     {
-        $this->countProject = $countProject;
+        
     }
 
     /**
@@ -32,7 +31,8 @@ class ProjectCreated implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('countProject')
+            new Channel("board.{$this->userId}"),
+            new Channel('chat')
         ];
     }
 }

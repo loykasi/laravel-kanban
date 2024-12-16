@@ -5,10 +5,10 @@ import utility from "../../../helper/utility";
 
 export function useLogoutUser() {
     const loading = ref(false);
-    async function logout(userId: number) {
+    async function logout(userId: string) {
         try {
             loading.value = true;
-            const data = await makeHttpRequest<{userId: number}, {message: string}>('logout', 'POST', {userId: userId});
+            const data = await makeHttpRequest<{userId: string}, {message: string}>('logout', 'POST', {userId: userId});
             loading.value = false;
         } catch (error) {
             loading.value = false;

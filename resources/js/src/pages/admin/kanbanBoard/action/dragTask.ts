@@ -4,23 +4,22 @@ import utility from "../../../../helper/utility";
 
 export function useDragTask() {
     let taskObject: HTMLElement;
-    function startDrag(event: DragEvent, taskId: number) {
+    function startDrag(event: DragEvent, listId: string) {
         if (event.dataTransfer !== null) {
             event.dataTransfer.dropEffect = 'move'
             event.dataTransfer.effectAllowed = 'move'
-            event.dataTransfer.setData('text/plain', taskId.toString());
+            event.dataTransfer.setData('text/plain', listId.toString());
         }
         console.log(event);
-        console.log(`taskId: ${taskId.toString()}`);
+        console.log(`listId: ${listId.toString()}`);
         taskObject = event.target as HTMLElement;
     }
-    function onDrop(event: DragEvent, projectId: number) {
+    function onDrop(event: DragEvent) {
         event.preventDefault();
-        const taskId = event.dataTransfer?.getData('text/plain');
-        if (event.target instanceof HTMLElement && taskId !== undefined) {
+        const listId = event.dataTransfer?.getData('text/plain');
+        if (event.target instanceof HTMLElement && listId !== undefined) {
             event.target.append(taskObject);
-            let status: number = +event.target.id;
-            setTaskStatus(+taskId, projectId, status);
+            // setTaskStatus(+taskId, projectId, status);
         }
     }
     return { startDrag, onDrop }

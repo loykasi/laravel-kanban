@@ -29,8 +29,8 @@
 <template>
     <RegisterSuccessPage v-if="isSuccess"/>
     <div v-else class="bg-gray-200 flex items-center justify-center h-screen">
-        <div class="bg-white p-8 shadow-md rounded-md w-1/4">
-            <h2 class="text-2xl font-semibold mb-4">Register</h2>
+        <div class="bg-white p-8 shadow-md rounded-md w-2/5">
+            <h2 class="text-2xl font-semibold mb-4 text-center">Register</h2>
             <form @submit.prevent="submitRegister">
                 <div>
                     <Error :errors="v$.email.$errors" label="Email">

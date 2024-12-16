@@ -22,8 +22,8 @@
 </script>
 <template>
     <div class="bg-gray-200 flex items-center justify-center h-screen">
-        <div class="bg-white p-8 shadow-md rounded-md">
-            <h2 class="text-2xl font-semibold mb-4">Login</h2>
+        <div class="bg-white p-8 shadow-md rounded-md w-2/5">
+            <h2 class="text-2xl font-semibold mb-4 text-center">Login</h2>
             <form @submit.prevent="submitLogin">
                 <div class="form-group">
                     <Error :errors="v$.email.$errors" label="Email">
@@ -35,11 +35,15 @@
                         <BaseInput v-model="loginInput.password" type="password"/>
                     </Error>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <RouterLink to="/register" class="block hover:text-blue-500 mt-3">Create account</RouterLink>
-                </div>
+                </div> -->
                 <div class="form-group">
-                    <BaseBtn label="Register" :loading="loading"></BaseBtn>
+                    <BaseBtn label="Login" :loading="loading"></BaseBtn>
+                </div>
+                <div class="mt-3">
+                    New user?
+                    <RouterLink to="/register" class="text-blue-700 hover:underline mt-3">Create account here</RouterLink>
                 </div>
             </form>
         </div>
