@@ -19,3 +19,7 @@ Broadcast::channel('project.{id}', function (User $user, $id) {
     // return (int) $user->id === Project::find($projectId)->userId;
     return true;
 });
+
+Broadcast::channel('card.{id}', function (User $user, $id) {
+    return true;
+});

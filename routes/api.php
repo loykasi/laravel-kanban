@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CardListController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Broadcasting\BroadcastController;
@@ -64,6 +66,12 @@ Route::group(['middleware'=>['auth:sanctum']], function() {
     });
 });
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::controller(UserController::class)->group(function() {
+    Route::get('/user/{id}', 'index');
+});
+
+Route::controller(CommentController::class)->group(function() {
+    Route::get('/card/{cardId}/comment', 'index');
+    Route::post('/card/{cardId}/comment', 'store');
+    Route::delete('/comment/{cardId}', 'delete');
+});

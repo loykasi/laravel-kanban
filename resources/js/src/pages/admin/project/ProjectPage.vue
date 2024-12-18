@@ -55,7 +55,7 @@ onMounted(async ()=>{
 })
 </script>
 <template>
-    <div class="h-full w-full ">
+    <div class="h-full w-full">
         <div class="container mx-auto h-full px-3">
             <div class="text-2xl font-semibold pt-2">
                 Projects
@@ -88,5 +88,5 @@ onMounted(async ()=>{
             </div>
         </div>
     </div>
-    <CreateProject :show-modal="showModal" @close-modal="closeCreateModal" />
+    <CreateProject :show-modal="showModal" :project-data="projectData" @close-modal="closeCreateModal" />
 </template>

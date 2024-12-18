@@ -5,9 +5,11 @@
     import { projectStore } from "@/store/projectStore";
     import { onMounted } from "vue";
     import { getUserData } from "@/helper/getUserData";
+    import { GetProjectType } from '../action/getProject';
 
-    defineProps<{
+    const props = defineProps<{
         showModal: boolean
+        projectData: GetProjectType
     }>();
 
     const emit = defineEmits<{
@@ -26,13 +28,17 @@
 
     async function submitProject() {
         projectStore.projectInput.userId = userData ? userData.user.id : "";
-        console.log(projectStore.projectInput)
-        // const result = await v$.value.$validate();
-
-        // if (!result) return;
-
-        await createProject();
+        await createProject((project) => {
+            props.projectData.data.push({
+                id: project.id,
+                name: project.name,
+                slug: project.slug,
+                updated_at: project.updated_at,
+                userId: project.userId
+            })
+        });
         v$.value.$reset();
+        emit('closeModal');
     }
 </script>
 <template>
@@ -54,7 +60,7 @@
                         </svg>
                     </button>
                 </div>
-                <div class="p-4 md:p-5">
+                <div class="px-4 pb-4 md:px-5 md:pb-5">
                     <form class="space-y-4" @submit.prevent="submitProject">
                         <!-- <div>
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Project title</label>

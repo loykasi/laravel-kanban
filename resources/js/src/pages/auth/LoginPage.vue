@@ -22,7 +22,7 @@
 </script>
 <template>
     <div class="bg-gray-200 flex items-center justify-center h-screen">
-        <div class="bg-white p-8 shadow-md rounded-md w-2/5">
+        <div class="bg-white p-8 shadow-md rounded-md w-2/6">
             <h2 class="text-2xl font-semibold mb-4 text-center">Login</h2>
             <form @submit.prevent="submitLogin">
                 <div class="form-group">

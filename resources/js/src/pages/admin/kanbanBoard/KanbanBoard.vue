@@ -39,6 +39,12 @@ const isShowCardModel = ref(false);
 const selectCard = ref<CardType | undefined>();
 
 
+function isValidDescription(card: CardType): boolean {
+    if (card.description == null || card.description === "") return false;
+    return true;
+}
+
+
 // card model
 
 async function openCardModal(card: CardType) {
@@ -476,7 +482,17 @@ onBeforeUnmount(() => {
                                 @dragstart="onStartDragCard(card.id, index2, list)"
                                 class="bg-white border border-slate-200 rounded-xl shadow px-4 py-2 mb-2 hover:cursor-pointer"
                                 @click="openCardModal(card)"
-                                >{{ card.name }}</div>
+                                >
+                                    <span>{{ card.name }}</span>
+                                    <div class="mt-2">
+                                        <svg
+                                            v-if="isValidDescription(card)"
+                                            class="w-5 h-5 text-gray-600"
+                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h10"/>
+                                        </svg>
+                                    </div>
+                                </div>
                         </ul>
                     </li>
                     <div
@@ -588,5 +604,6 @@ onBeforeUnmount(() => {
         @close-modal="closeCardModel"
         :show-modal="isShowCardModel"
         :card="selectCard"
-        :project-id="projectDetail.data.id" />
+        :project-id="projectDetail.data.id"
+        :member-data="memberData" />
 </template>

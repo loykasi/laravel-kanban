@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import toastNotification from "../../../../helper/toastNotification";
 import utility from "../../../../helper/utility";
 import { projectStore } from "../../../../store/projectStore";
+import { ProjectType } from "./getProject";
 
 export type ProjectInputType = {
     name: string,
@@ -10,6 +11,7 @@ export type ProjectInputType = {
 }
 
 export type ProjectResponseType = {
+    project: ProjectType,
     message: string
 }
 
@@ -17,13 +19,15 @@ export type ProjectResponseType = {
 
 export function useProjectFunction() {
     const loading = ref(false);
-    async function createProject() {
+    async function createProject(callback: (project: ProjectType) => void) {
         try {
             loading.value = true;
             const data = projectStore.edit? await updateProject() : await addProject();
             loading.value = false;
             projectStore.projectInput = {} as ProjectInputType;
-            toastNotification.showSuccess(data.message);
+            // console.log(data);
+            callback(data.project);
+            // toastNotification.showSuccess(data.message);
         } catch (error) {
             loading.value = false;
             utility.showErrorMessage(error);

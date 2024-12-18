@@ -6,18 +6,9 @@ import { getUserData } from "@/helper/getUserData";
 export type ProjectType = {
     id: string,
     name: string,
-    startDate: string,
-    endDate: string,
     slug: string,
     updated_at: string,
     userId: string,
-    task_progress: {
-        id: number,
-        projectId: number,
-        progress: string,
-        created_at: string,
-        updated_at: string,
-    }
 }
 
 export type GetProjectType = {

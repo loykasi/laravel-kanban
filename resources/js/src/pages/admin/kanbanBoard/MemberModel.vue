@@ -19,6 +19,7 @@ const { memberActionLoading, addMember, deleteMember } = useMember();
 const email = ref("");
 
 async function addMemberByEmail() {
+    if (email.value === "") return;
     addMember(props.projectId, email.value, props.memberData);
 }
 

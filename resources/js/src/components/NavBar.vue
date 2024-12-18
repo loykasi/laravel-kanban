@@ -15,11 +15,13 @@
   }>()
   
   const email = ref("");
+  const id = ref("");
 
   onMounted(async () => {
     const data = getUserData();
     if (data == null) return;
     email.value = data.user.email;
+    id.value = data.user.id;
   })
 </script>
 <template>
@@ -44,11 +46,13 @@
         <!-- <div class="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
             <svg class="absolute w-10 h-10 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
         </div> -->
-        <div
-            class="relative inline-flex items-center justify-center w-6 h-6 overflow-hidden bg-gray-200 rounded-full"
-        >
-            <span class="font-medium text-sm text-gray-600 pointer-events-none">{{ email[0] }}</span>
-        </div>
+        <RouterLink :to="'/profile/' + id">
+          <div
+              class="relative inline-flex items-center justify-center w-6 h-6 overflow-hidden bg-gray-200 rounded-full"
+          >
+              <span class="font-medium text-sm text-gray-600 pointer-events-none">{{ email[0] }}</span>
+          </div>
+        </RouterLink>
         <!-- <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Get started</button> -->
         <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
           <span class="sr-only">Open main menu</span>
